@@ -4425,8 +4425,11 @@ function handle_move(ev) {
 }
 
 var tool_pan = {
+    name: "pan",
+    cursor: "grab",
     down: function (pt, ev) {
         this.last_mouse = [ev.pageX, ev.pageY];
+        $(canvas).css("cursor", "grabbing");
     },
     dragging: function (pt0, pt1, ev) {
         var dx = ev.pageX - this.last_mouse[0];
@@ -4436,7 +4439,10 @@ var tool_pan = {
         this.last_mouse = [ev.pageX, ev.pageY];
         queue_render();
     },
-    end_drag: function () {},
+    end_drag: function () {
+        $(canvas).css("cursor", "grab");
+        // Pan only moves the viewport, never touches stadium data — no savepoint
+    },
     click: function () {},
     moving: function () {},
     key: function () {},
